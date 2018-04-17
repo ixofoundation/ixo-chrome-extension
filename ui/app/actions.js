@@ -52,6 +52,7 @@ var actions = {
   unMarkPasswordForgotten,
   SHOW_INIT_MENU: 'SHOW_INIT_MENU',
   SHOW_NEW_VAULT_SEED: 'SHOW_NEW_VAULT_SEED',
+  SHOW_VAULT_SEED: 'SHOW_VAULT_SEED',
   SHOW_INFO_PAGE: 'SHOW_INFO_PAGE',
   SHOW_IMPORT_PAGE: 'SHOW_IMPORT_PAGE',
   SHOW_NEW_ACCOUNT_PAGE: 'SHOW_NEW_ACCOUNT_PAGE',
@@ -82,6 +83,7 @@ var actions = {
   REVEAL_SEED_CONFIRMATION: 'REVEAL_SEED_CONFIRMATION',
   revealSeedConfirmation: revealSeedConfirmation,
   requestRevealSeed: requestRevealSeed,
+  requestRevealSeedWords: requestRevealSeedWords,
 
   // unlock screen
   UNLOCK_IN_PROGRESS: 'UNLOCK_IN_PROGRESS',
@@ -418,7 +420,7 @@ function createNewVaultAndKeychain (password) {
     })
       .then(() => forceUpdateMetamaskState(dispatch))
       .then(() => dispatch(actions.hideLoadingIndication()))
-      .catch(() => dispatch(actions.hideLoadingIndication()))
+      .catch((err) => dispatch(actions.hideLoadingIndication()))
   }
 }
 
@@ -449,6 +451,34 @@ function requestRevealSeed (password) {
           dispatch(actions.showNewVaultSeed(result))
           dispatch(actions.hideLoadingIndication())
           resolve()
+        })
+      })
+    })
+  }
+}
+//Added for ixo
+function requestRevealSeedWords (password) {
+  var self = this
+  return dispatch => {
+    dispatch(self.showLoadingIndication())
+    log.debug(`background.submitPassword`)
+    return new Promise((resolve, reject) => {
+      background.submitPassword(password, err => {
+        if (err) {
+          dispatch(self.displayWarning(err.message))
+          return reject(err)
+        }
+
+        log.debug(`background.placeSeedWords`)
+        return background.placeSeedWords((err, result) => {
+          if (err) {
+            dispatch(self.displayWarning(err.message))
+            return reject(err)
+          }
+
+          dispatch(self.showNewVaultSeed(result))
+          dispatch(actions.hideLoadingIndication())
+          resolve(result)
         })
       })
     })
@@ -1026,6 +1056,13 @@ function createNewVaultInProgress () {
 function showNewVaultSeed (seed) {
   return {
     type: actions.SHOW_NEW_VAULT_SEED,
+    value: seed,
+  }
+}
+
+function showVaultSeed (seed) {
+  return {
+    type: actions.SHOW_VAULT_SEED,
     value: seed,
   }
 }

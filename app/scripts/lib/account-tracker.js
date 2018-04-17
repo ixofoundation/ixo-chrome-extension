@@ -26,12 +26,6 @@ class AccountTracker extends EventEmitter {
     this.store = new ObservableStore(initState)
 
     this._provider = opts.provider
-    this._query = new EthQuery(this._provider)
-    this._blockTracker = opts.blockTracker
-    // subscribe to latest block
-    this._blockTracker.on('block', this._updateForBlock.bind(this))
-    // blockTracker.currentBlock may be null
-    this._currentBlockNumber = this._blockTracker.currentBlock
   }
 
   //
@@ -65,7 +59,6 @@ class AccountTracker extends EventEmitter {
     const accounts = this.store.getState().accounts
     accounts[address] = {}
     this.store.updateState({ accounts })
-    if (!this._currentBlockNumber) return
     this._updateAccount(address)
   }
 
@@ -78,20 +71,6 @@ class AccountTracker extends EventEmitter {
   //
   // private
   //
-
-  _updateForBlock (block) {
-    this._currentBlockNumber = block.number
-    const currentBlockGasLimit = block.gasLimit
-
-    this.store.updateState({ currentBlockGasLimit })
-
-    async.parallel([
-      this._updateAccounts.bind(this),
-    ], (err) => {
-      if (err) return console.error(err)
-      this.emit('block', this.store.getState())
-    })
-  }
 
   _updateAccounts (cb = noop) {
     const accounts = this.store.getState().accounts
@@ -115,9 +94,6 @@ class AccountTracker extends EventEmitter {
 
   _getAccount (address, cb = noop) {
     const query = this._query
-    async.parallel({
-      balance: query.getBalance.bind(query, address),
-    }, cb)
   }
 
 }

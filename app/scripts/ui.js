@@ -1,6 +1,5 @@
 const injectCss = require('inject-css')
-const OldMetaMaskUiCss = require('../../old-ui/css')
-const NewMetaMaskUiCss = require('../../ui/css')
+const UiCss = require('../../ui/css')
 const startPopup = require('./popup-core')
 const PortStream = require('./lib/port-stream.js')
 const isPopupOrNotification = require('./lib/is-popup-or-notification')
@@ -10,16 +9,22 @@ const NotificationManager = require('./lib/notification-manager')
 const notificationManager = new NotificationManager()
 const setupRaven = require('./lib/setupRaven')
 
+
+  //TODO: remove
+  console.log("Starting...");
+
 start().catch(log.error)
 
 async function start() {
+  //TODO: remove
+  console.log("Starting...");
 
   // create platform global
   global.platform = new ExtensionPlatform()
 
   // setup sentry error reporting
   const release = global.platform.getVersion()
-  setupRaven({ release })
+  //setupRaven({ release })
 
   // inject css
   // const css = MetaMaskUiCss()
@@ -43,25 +48,12 @@ async function start() {
     // const { isMascara, identities = {}, featureFlags = {} } = store.getState().metamask
     // const firstTime = Object.keys(identities).length === 0
     const { isMascara, featureFlags = {} } = store.getState().metamask
-    let betaUIState = featureFlags.betaUI
 
-    // Code commented out until we begin auto adding users to NewUI
-    // const useBetaCss = isMascara || firstTime || betaUIState
-    const useBetaCss = isMascara || betaUIState
-
-    let css = useBetaCss ? NewMetaMaskUiCss() : OldMetaMaskUiCss()
+    let css = UiCss()
     let deleteInjectedCss = injectCss(css)
-    let newBetaUIState
 
     store.subscribe(() => {
       const state = store.getState()
-      newBetaUIState = state.metamask.featureFlags.betaUI
-      if (newBetaUIState !== betaUIState) {
-        deleteInjectedCss()
-        betaUIState = newBetaUIState
-        css = betaUIState ? NewMetaMaskUiCss() : OldMetaMaskUiCss()
-        deleteInjectedCss = injectCss(css)
-      }
       if (state.appState.shouldClose) notificationManager.closePopup()
     })
   })
@@ -75,7 +67,7 @@ async function start() {
   }
 
   function displayCriticalError (err) {
-    container.innerHTML = '<div class="critical-error">The MetaMask app failed to load: please open and close MetaMask again to restart.</div>'
+    container.innerHTML = '<div class="critical-error">The ixo Credential Provider app failed to load: please open and close MetaMask again to restart.</div>'
     container.style.height = '80px'
     log.error(err.stack)
     throw err

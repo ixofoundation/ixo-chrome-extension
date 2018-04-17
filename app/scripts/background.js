@@ -150,13 +150,6 @@ function setupController (initState, initLangCode) {
   })
   global.metamaskController = controller
 
-  // report failed transactions to Sentry
-  controller.txController.on(`tx:status-update`, (txId, status) => {
-    if (status !== 'failed') return
-    const txMeta = controller.txController.txStateManager.getTx(txId)
-    reportFailedTxToSentry({ raven, txMeta })
-  })
-
   // setup state persistence
   pump(
     asStream(controller.store),
@@ -218,10 +211,11 @@ function setupController (initState, initLangCode) {
           notificationIsOpen = false
         })
       }
-    } else {
+    //TODO: Remove
+//    } else {
       // communication with page
-      const originDomain = urlUtil.parse(remotePort.sender.url).hostname
-      controller.setupUntrustedCommunication(portStream, originDomain)
+//      const originDomain = urlUtil.parse(remotePort.sender.url).hostname
+//      controller.setupUntrustedCommunication(portStream, originDomain)
     }
   }
 
@@ -230,18 +224,16 @@ function setupController (initState, initLangCode) {
   //
 
   updateBadge()
-  controller.txController.on('update:badge', updateBadge)
   controller.messageManager.on('updateBadge', updateBadge)
   controller.personalMessageManager.on('updateBadge', updateBadge)
 
   // plugin badge text
   function updateBadge () {
     var label = ''
-    var unapprovedTxCount = controller.txController.getUnapprovedTxCount()
     var unapprovedMsgCount = controller.messageManager.unapprovedMsgCount
     var unapprovedPersonalMsgs = controller.personalMessageManager.unapprovedPersonalMsgCount
     var unapprovedTypedMsgs = controller.typedMessageManager.unapprovedTypedMessagesCount
-    var count = unapprovedTxCount + unapprovedMsgCount + unapprovedPersonalMsgs + unapprovedTypedMsgs
+    var count = unapprovedMsgCount + unapprovedPersonalMsgs + unapprovedTypedMsgs
     if (count) {
       label = String(count)
     }

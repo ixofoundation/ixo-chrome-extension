@@ -111,9 +111,8 @@ function getCurrentAccountWithSendEtherInfo (state) {
 function transactionsSelector (state) {
   const { network, selectedTokenAddress } = state.metamask
   const unapprovedMsgs = valuesFor(state.metamask.unapprovedMsgs)
-  const shapeShiftTxList = (network === '1') ? state.metamask.shapeShiftTxList : undefined
-  const transactions = state.metamask.selectedAddressTxList || []
-  const txsToRender = !shapeShiftTxList ? transactions.concat(unapprovedMsgs) : transactions.concat(unapprovedMsgs, shapeShiftTxList)
+  const transactions = []
+  const txsToRender = transactions.concat(unapprovedMsgs)
 
   // console.log({txsToRender, selectedTokenAddress})
   return selectedTokenAddress
@@ -177,12 +176,10 @@ function autoAddToBetaUI (state) {
   const autoAddAccountsThreshold = 2
   const autoAddTokensThreshold = 1
 
-  const numberOfTransactions = state.metamask.selectedAddressTxList.length
   const numberOfAccounts = Object.keys(state.metamask.accounts).length
   const numberOfTokensAdded = state.metamask.tokens.length
 
-  const userPassesThreshold = (numberOfTransactions > autoAddTransactionThreshold) &&
-    (numberOfAccounts > autoAddAccountsThreshold) &&
+  const userPassesThreshold = (numberOfAccounts > autoAddAccountsThreshold) &&
     (numberOfTokensAdded > autoAddTokensThreshold)
   const userIsNotInBeta = !state.metamask.featureFlags.betaUI
 

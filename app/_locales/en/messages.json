@@ -30,11 +30,11 @@
     "message": "Amount + Gas"
   },
   "appDescription": {
-    "message": "Ethereum Browser Extension",
+    "message": "An ixo extension for signing requests",
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "ixo Credential Handler",
     "description": "The name of the application"
   },
   "approved": {
@@ -148,6 +148,9 @@
   },
   "copyPrivateKey": {
     "message": "This is your private key (click to copy)"
+  },
+  "copySeedWords": {
+    "message": "These are your seed words (click to copy)"
   },
   "create": {
     "message": "Create"
@@ -362,7 +365,7 @@
     "message": "How would you like to deposit Ether?"
   },
   "holdEther": {
-    "message": "It allows you to hold ether & tokens, and serves as your bridge to decentralized applications."
+    "message": ""
   },
   "import": {
     "message": "Import",
@@ -474,7 +477,7 @@
     "message": "Message"
   },
   "metamaskDescription": {
-    "message": "MetaMask is a secure identity vault for Ethereum."
+    "message": "ixo Credential Manager securely stores your decentralized identity in a vault for use on the ixo network."
   },
   "min": {
     "message": "Minimum"
@@ -898,7 +901,7 @@
     "message": "Warning"
   },
   "welcomeBeta": {
-    "message": "Welcome to MetaMask Beta"
+    "message": "Welcome to ixo Credential Manager"
   },
   "whatsThis": {
     "message": "What's this?"

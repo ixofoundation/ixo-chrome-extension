@@ -143,7 +143,7 @@ class AccountDropdowns extends Component {
   indicateIfLoose (keyring) {
     try { // Sometimes keyrings aren't loaded yet:
       const type = keyring.type
-      const isLoose = type !== 'HD Key Tree'
+      const isLoose = type !== 'sovrin'
       return isLoose ? h('.keyring-label.allcaps', this.context.t('loose')) : null
     } catch (e) { return }
   }

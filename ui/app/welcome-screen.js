@@ -1,4 +1,3 @@
-import EventEmitter from 'events'
 import h from 'react-hyperscript'
 import { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -6,7 +5,6 @@ import {connect} from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'recompose'
 import {closeWelcomeScreen} from './actions'
-import Mascot from './components/mascot'
 import { INITIALIZE_CREATE_PASSWORD_ROUTE } from './routes'
 
 class WelcomeScreen extends Component {
@@ -18,7 +16,6 @@ class WelcomeScreen extends Component {
 
   constructor (props) {
     super(props)
-    this.animationEventEmitter = new EventEmitter()
   }
 
   componentWillMount () {
@@ -39,18 +36,17 @@ class WelcomeScreen extends Component {
 
         h('div.welcome-screen__info', [
 
-          h(Mascot, {
-            animationEventEmitter: this.animationEventEmitter,
-            width: '225',
-            height: '225',
+          h('img.ixo-icon', {
+            height: 200,
+            width: 200,
+            src: '/images/ixo-logo.svg',
           }),
 
-          h('div.welcome-screen__info__header', 'Welcome to MetaMask Beta'),
+          h('div.welcome-screen__info__header', 'Welcome to the'),
+          h('div.welcome-screen__info__header', 'ixo credential Manager'),
 
-          h('div.welcome-screen__info__copy', 'MetaMask is a secure identity vault for Ethereum.'),
+          h('div.welcome-screen__info__copy', 'The ixo Credential Manager securely stores your digital identity in a vault for signing ixo network requests.'),
 
-          h('div.welcome-screen__info__copy', `It allows you to hold ether & tokens,
-            and serves as your bridge to decentralized applications.`),
 
           h('button.welcome-screen__button', {
             onClick: this.initiateAccountCreation,

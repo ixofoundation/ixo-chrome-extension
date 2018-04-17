@@ -1,5 +1,4 @@
-const Wallet = require('ethereumjs-wallet')
-const importers = require('ethereumjs-wallet/thirdparty')
+//const importers = require('ethereumjs-wallet/thirdparty')
 const ethUtil = require('ethereumjs-util')
 
 const accountImporter = {
@@ -22,13 +21,11 @@ const accountImporter = {
     'JSON File': (input, password) => {
       let wallet
       try {
-        wallet = importers.fromEtherWallet(input, password)
+        wallet = ""; 
+        //TODO: Fix for SOVRIN
+        //wallet = importers.fromEtherWallet(input, password)
       } catch (e) {
-        console.log('Attempt to import as EtherWallet format failed, trying V3...')
-      }
-
-      if (!wallet) {
-        wallet = Wallet.fromV3(input, password, true)
+        console.log('Attempt to import as SOVRIN format failed.')
       }
 
       return walletToPrivateKey(wallet)
@@ -38,8 +35,10 @@ const accountImporter = {
 }
 
 function walletToPrivateKey (wallet) {
-  const privateKeyBuffer = wallet.getPrivateKey()
-  return ethUtil.bufferToHex(privateKeyBuffer)
+  //TODO: Mkae for SOVRIN
+  //const privateKeyBuffer = wallet.getPrivateKey()
+  //return ethUtil.bufferToHex(privateKeyBuffer)
+  return "0x1234";
 }
 
 module.exports = accountImporter

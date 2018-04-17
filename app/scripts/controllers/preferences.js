@@ -1,5 +1,4 @@
 const ObservableStore = require('obs-store')
-const normalizeAddress = require('eth-sig-util').normalize
 const extend = require('xtend')
 
 class PreferencesController {
@@ -31,7 +30,7 @@ class PreferencesController {
 
   setSelectedAddress (_address) {
     return new Promise((resolve, reject) => {
-      const address = normalizeAddress(_address)
+      const address = _address
       this.store.updateState({ selectedAddress: address })
       resolve()
     })
@@ -42,7 +41,7 @@ class PreferencesController {
   }
 
   async addToken (rawAddress, symbol, decimals) {
-    const address = normalizeAddress(rawAddress)
+    const address = rawAddress
     const newEntry = { address, symbol, decimals }
 
     const tokens = this.store.getState().tokens

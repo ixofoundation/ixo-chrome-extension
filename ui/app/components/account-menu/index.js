@@ -166,7 +166,6 @@ AccountMenu.prototype.renderAccounts = function () {
 
         h('div.account-menu__account-info', [
           h('div.account-menu__name', identity.name || ''),
-          h('div.account-menu__balance', formattedBalance),
         ]),
 
         this.indicateIfLoose(keyring),
@@ -178,7 +177,7 @@ AccountMenu.prototype.renderAccounts = function () {
 AccountMenu.prototype.indicateIfLoose = function (keyring) {
   try { // Sometimes keyrings aren't loaded yet:
     const type = keyring.type
-    const isLoose = type !== 'HD Key Tree'
+    const isLoose = type !== 'sovrin'
     return isLoose ? h('.keyring-label.allcaps', this.context.t('imported')) : null
   } catch (e) { return }
 }

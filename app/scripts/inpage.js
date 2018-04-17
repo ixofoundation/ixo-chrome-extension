@@ -1,6 +1,7 @@
 /*global Web3*/
 cleanContextForImports()
-require('web3/dist/web3.min.js')
+//TODO: Replace folloing line with ixo.js
+// require('web3/dist/web3.min.js')
 const log = require('loglevel')
 const LocalMessageDuplexStream = require('post-message-stream')
 // const PingStream = require('ping-pong-stream/ping')
@@ -31,26 +32,27 @@ var inpageProvider = new MetamaskInpageProvider(metamaskStream)
 // setup web3
 //
 
-if (typeof window.web3 !== 'undefined') {
-  throw new Error(`MetaMask detected another web3.
-     MetaMask will not work reliably with another web3 extension.
-     This usually happens if you have two MetaMasks installed,
-     or MetaMask and another web3 extension. Please remove one
-     and try again.`)
+if (typeof window.ixo !== 'undefined') {
+  throw new Error(`ixo detected another ixo.
+     ixo Credential handler will not work reliably with another ixo extension.
+     Please remove one and try again.`)
 }
-var web3 = new Web3(inpageProvider)
-web3.setProvider = function () {
-  log.debug('MetaMask - overrode web3.setProvider')
+//TODO: Fix this
+var ixo = {"inpageProvider": inpageProvider, "Test":"test"};// new Web3(inpageProvider)
+ixo.setProvider = function () {
+  log.debug('ixo - overrode web3.setProvider')
 }
-log.debug('MetaMask - injected web3')
+window.ixo = ixo;
+log.debug('ixo Credential handler injected')
 // export global web3, with usage-detection
-setupDappAutoReload(web3, inpageProvider.publicConfigStore)
+//TODO: Following lines removed
+//setupDappAutoReload(web3, inpageProvider.publicConfigStore)
 
 // set web3 defaultAccount
 
-inpageProvider.publicConfigStore.subscribe(function (state) {
-  web3.eth.defaultAccount = state.selectedAddress
-})
+//inpageProvider.publicConfigStore.subscribe(function (state) {
+//  web3.eth.defaultAccount = state.selectedAddress
+//})
 
 //
 // util
@@ -66,7 +68,7 @@ function cleanContextForImports () {
   try {
     global.define = undefined
   } catch (_) {
-    console.warn('MetaMask - global.define could not be deleted.')
+    console.warn('ixo - global.define could not be deleted.')
   }
 }
 
@@ -74,6 +76,6 @@ function restoreContextAfterImports () {
   try {
     global.define = __define
   } catch (_) {
-    console.warn('MetaMask - global.define could not be overwritten.')
+    console.warn('ixo - global.define could not be overwritten.')
   }
 }

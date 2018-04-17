@@ -15,6 +15,7 @@ const BalanceComponent = require('./balance-component')
 const TokenList = require('./token-list')
 const selectors = require('../selectors')
 const { ADD_TOKEN_ROUTE } = require('../routes')
+const QrView = require('./qr-code')
 
 module.exports = compose(
   withRouter,
@@ -113,7 +114,7 @@ WalletView.prototype.render = function () {
   })
 
   const type = keyring.type
-  const isLoose = type !== 'HD Key Tree'
+  const isLoose = type !== 'sovrin'
 
   return h('div.wallet-view.flex-column' + (responsiveDisplayClassname || ''), {
     style: {},
@@ -123,10 +124,10 @@ WalletView.prototype.render = function () {
     h('div.flex-column.wallet-view-account-details', {
       style: {},
     }, [
-      h('div.wallet-view__sidebar-close', {
+/*      h('div.wallet-view__sidebar-close', {
         onClick: hideSidebar,
       }),
-
+*/
       h('div.wallet-view__keyring-label.allcaps', isLoose ? this.context.t('imported') : ''),
 
       h('div.flex-column.flex-center.wallet-view__name-container', {
@@ -147,6 +148,12 @@ WalletView.prototype.render = function () {
         h('button.btn-clear.wallet-view__details-button.allcaps', this.context.t('details')),
       ]),
     ]),
+
+    h(QrView, {
+      Qr: {
+        data: selectedAddress,
+      },
+    }),
 
     h(Tooltip, {
       position: 'bottom',
@@ -169,18 +176,11 @@ WalletView.prototype.render = function () {
           this.setState({ copyToClipboardPressed: false })
         },
       }, [
-        `${selectedAddress.slice(0, 4)}...${selectedAddress.slice(-4)}`,
+        "Copy",
         h('i.fa.fa-clipboard', { style: { marginLeft: '8px' } }),
       ]),
     ]),
 
-    this.renderWalletBalance(),
-
-    h(TokenList),
-
-    h('button.btn-primary.wallet-view__add-token-button', {
-      onClick: () => history.push(ADD_TOKEN_ROUTE),
-    }, this.context.t('addToken')),
   ])
 }
 

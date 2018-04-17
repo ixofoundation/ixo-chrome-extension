@@ -27,6 +27,8 @@ function launchMetamaskUi (opts, cb) {
 }
 
 async function startApp (metamaskState, accountManager, opts) {
+  //TODO: Remove log
+  console.log("store Created");
   // parse opts
   if (!metamaskState.featureFlags) metamaskState.featureFlags = {}
 
@@ -36,7 +38,7 @@ async function startApp (metamaskState, accountManager, opts) {
   const enLocaleMessages = await fetchLocale('en')
 
   const store = configureStore({
-
+    
     // metamaskState represents the cross-tab state
     metamask: metamaskState,
 
@@ -48,16 +50,13 @@ async function startApp (metamaskState, accountManager, opts) {
       en: enLocaleMessages,
     },
 
-    // Which blockchain we are using:
-    networkVersion: opts.networkVersion,
   })
 
   const useBetaUi = metamaskState.featureFlags.betaUI
-  const networkEndpointType = useBetaUi ? BETA_UI_NETWORK_TYPE : OLD_UI_NETWORK_TYPE
-  store.dispatch(actions.setNetworkEndpoints(networkEndpointType))
+  const networkEndpointType = BETA_UI_NETWORK_TYPE
 
   // if unconfirmed txs, start on txConf page
-  const unapprovedTxsAll = txHelper(metamaskState.unapprovedTxs, metamaskState.unapprovedMsgs, metamaskState.unapprovedPersonalMsgs, metamaskState.unapprovedTypedMessages, metamaskState.network)
+  const unapprovedTxsAll = txHelper(metamaskState.unapprovedMsgs, metamaskState.unapprovedPersonalMsgs, metamaskState.unapprovedTypedMessages)
   const numberOfUnapprivedTx = unapprovedTxsAll.length
   if (numberOfUnapprivedTx > 0) {
     store.dispatch(actions.showConfTxPage({

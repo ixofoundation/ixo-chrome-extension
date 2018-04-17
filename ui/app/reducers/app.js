@@ -558,6 +558,15 @@ function reduceApp (state, action) {
         },
       })
 
+    case actions.SHOW_VAULT_SEED:
+      return extend(appState, {
+        accountDetail: {
+          subview: 'export',
+          accountExport: 'completed',
+          privateKey: action.value,
+        },
+      })
+
     case actions.SHOW_PRIVATE_KEY:
       return extend(appState, {
         accountDetail: {

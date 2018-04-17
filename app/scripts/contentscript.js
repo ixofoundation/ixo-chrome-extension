@@ -18,7 +18,7 @@ const inpageBundle = inpageContent + inpageSuffix
 // If we create a FireFox-only code path using that API,
 // MetaMask will be much faster loading and performant on Firefox.
 
-if (shouldInjectWeb3()) {
+if (shouldInjectIxo()) {
   setupInjection()
   setupStreams()
 }
@@ -33,7 +33,7 @@ function setupInjection () {
     // append as first child
     container.insertBefore(scriptTag, container.children[0])
   } catch (e) {
-    console.error('Metamask injection failed.', e)
+    console.error('ixo injection failed.', e)
   }
 }
 
@@ -51,7 +51,7 @@ function setupStreams () {
     pageStream,
     pluginStream,
     pageStream,
-    (err) => logStreamDisconnectWarning('MetaMask Contentscript Forwarding', err)
+    (err) => logStreamDisconnectWarning('ixo Contentscript Forwarding', err)
   )
 
   // setup local multistream channels
@@ -62,13 +62,13 @@ function setupStreams () {
     mux,
     pageStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask Inpage', err)
+    (err) => logStreamDisconnectWarning('ixo Inpage', err)
   )
   pump(
     mux,
     pluginStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask Background', err)
+    (err) => logStreamDisconnectWarning('ixo Background', err)
   )
 
   // connect ping stream
@@ -77,7 +77,7 @@ function setupStreams () {
     mux,
     pongStream,
     mux,
-    (err) => logStreamDisconnectWarning('MetaMask PingPongStream', err)
+    (err) => logStreamDisconnectWarning('ixo PingPongStream', err)
   )
 
   // connect phishing warning stream
@@ -90,12 +90,12 @@ function setupStreams () {
 }
 
 function logStreamDisconnectWarning (remoteLabel, err) {
-  let warningMsg = `MetamaskContentscript - lost connection to ${remoteLabel}`
+  let warningMsg = `ixoContentscript - lost connection to ${remoteLabel}`
   if (err) warningMsg += '\n' + err.stack
   console.warn(warningMsg)
 }
 
-function shouldInjectWeb3 () {
+function shouldInjectIxo () {
   return doctypeCheck() && suffixCheck()
     && documentElementCheck() && !blacklistedDomainCheck()
 }
@@ -149,6 +149,6 @@ function blacklistedDomainCheck () {
 }
 
 function redirectToPhishingWarning () {
-  console.log('MetaMask - redirecting to phishing warning')
-  window.location.href = 'https://metamask.io/phishing.html'
+  console.log('ixo - redirecting to phishing warning')
+  window.location.href = 'https://ixo.io/phishing.html'
 }

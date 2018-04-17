@@ -1,4 +1,4 @@
-const KeyringController = require('eth-keyring-controller')
+const SovrinKeyringController = require('../sovrin-keyring-controller')
 
 const seedPhraseVerifier = {
 
@@ -15,8 +15,8 @@ const seedPhraseVerifier = {
         return reject(new Error('No created accounts defined.'))
       }
 
-      const keyringController = new KeyringController({})
-      const Keyring = keyringController.getKeyringClassForType('HD Key Tree')
+      const keyringController = new SovrinKeyringController({})
+      const Keyring = keyringController.getKeyringClassForType('sovrin')
       const opts = {
         mnemonic: seedWords,
         numberOfAccounts: createdAccounts.length,

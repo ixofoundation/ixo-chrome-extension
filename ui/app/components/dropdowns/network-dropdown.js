@@ -65,8 +65,9 @@ module.exports = connect(mapStateToProps, mapDispatchToProps)(NetworkDropdown)
 // TODO: specify default props and proptypes
 NetworkDropdown.prototype.render = function () {
   const props = this.props
-  const { provider: { type: providerType, rpcTarget: activeNetwork } } = props
-  const rpcList = props.frequentRpcList
+//  const { provider: { type: 'mainnet', rpcTarget: activeNetwork } } = props
+//  const rpcList = props.frequentRpcList
+  const providerType = 'mainnet'
   const isOpen = this.props.networkDropdownOpen
   const dropdownMenuItemStyle = {
     fontFamily: 'DIN OT',

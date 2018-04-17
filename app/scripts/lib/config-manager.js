@@ -199,13 +199,13 @@ ConfigManager.prototype.getWalletNicknames = function () {
 }
 
 ConfigManager.prototype.nicknameForWallet = function (account) {
-  const address = normalize(account)
+  const address = account.did
   const nicknames = this.getWalletNicknames()
   return nicknames[address]
 }
 
 ConfigManager.prototype.setNicknameForWallet = function (account, nickname) {
-  const address = normalize(account)
+  const address = account.did
   const nicknames = this.getWalletNicknames()
   nicknames[address] = nickname
   var data = this.getData()

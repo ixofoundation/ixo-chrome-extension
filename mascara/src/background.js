@@ -108,9 +108,6 @@ async function setupController (initState, client) {
       // communication with popup
       controller.setupTrustedCommunication(connectionStream, 'MetaMask')
       global.metamaskPopupIsOpen = true
-    } else {
-      // communication with page
-      setupUntrustedCommunication(connectionStream, context)
     }
   }
 
@@ -122,13 +119,5 @@ async function setupController (initState, client) {
     controller.setupPublicConfig(mx.createStream('publicConfig'))
   }
 }
-// // this will be useful later but commented out for linting for now (liiiinting)
-// function sendMessageToAllClients (message) {
-//   global.clients.matchAll().then(function (clients) {
-//     clients.forEach(function (client) {
-//       client.postMessage(message)
-//     })
-//   })
-// }
 
 function noop () {}

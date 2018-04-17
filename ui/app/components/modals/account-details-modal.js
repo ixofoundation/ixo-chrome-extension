@@ -24,6 +24,9 @@ function mapDispatchToProps (dispatch) {
     showExportPrivateKeyModal: () => {
       dispatch(actions.showModal({ name: 'EXPORT_PRIVATE_KEY' }))
     },
+    revealSeedWords: () => {
+      dispatch(actions.showModal({name: 'REVEAL_SEED_CONFIRMATION'}))
+    },
     hideModal: () => dispatch(actions.hideModal()),
     saveAccountLabel: (address, label) => dispatch(actions.saveAccountLabel(address, label)),
   }
@@ -48,6 +51,7 @@ AccountDetailsModal.prototype.render = function () {
   const {
     selectedIdentity,
     network,
+    revealSeedWords,
     showExportPrivateKeyModal,
     saveAccountLabel,
   } = this.props
@@ -68,14 +72,16 @@ AccountDetailsModal.prototype.render = function () {
 
       h('div.account-modal-divider'),
 
+      // Holding on redesign for Export Private Key functionality
       h('button.btn-primary.account-modal__button', {
-        onClick: () => global.platform.openWindow({ url: genAccountLink(address, network) }),
-      }, this.context.t('etherscanView')),
+        onClick: () => revealSeedWords(),
+      }, this.context.t('revealSeedWords')),
 
       // Holding on redesign for Export Private Key functionality
+/*
       h('button.btn-primary.account-modal__button', {
         onClick: () => showExportPrivateKeyModal(),
       }, this.context.t('exportPrivateKey')),
-
+*/
   ])
 }

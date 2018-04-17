@@ -56,10 +56,6 @@ const {
 class App extends Component {
   componentWillMount () {
     const { currentCurrency, setCurrentCurrencyToUSD } = this.props
-
-    if (!currentCurrency) {
-      setCurrentCurrencyToUSD()
-    }
   }
 
   renderRoutes () {
@@ -123,12 +119,6 @@ class App extends Component {
 
         // sidebar
         this.renderSidebar(),
-
-        // network dropdown
-        h(NetworkDropdown, {
-          provider,
-          frequentRpcList,
-        }, []),
 
         h(AccountMenu),
 
@@ -244,10 +234,10 @@ class App extends Component {
               onClick: () => props.history.push(DEFAULT_ROUTE),
             }, [
               // mini logo
-              h('img.metafox-icon', {
+              h('img.ixo-icon', {
                 height: 42,
                 width: 42,
-                src: '/images/metamask-fox.svg',
+                src: '/images/ixo-logo.svg',
               }),
 
               // metamask name
@@ -307,7 +297,7 @@ class App extends Component {
     return isMascara
       ? null
       : h(Loading, {
-        isLoading: isLoading || isLoadingNetwork,
+        isLoading: isLoading,
         loadingMessage: loadMessage,
       })
   }
@@ -408,6 +398,9 @@ App.propTypes = {
 }
 
 function mapStateToProps (state) {
+  //TODO: Remove
+  console.log("State");
+  console.log(state)
   const { appState, metamask } = state
   const {
     networkDropdownOpen,
@@ -482,7 +475,6 @@ function mapDispatchToProps (dispatch, ownProps) {
     hideSidebar: () => dispatch(actions.hideSidebar()),
     showNetworkDropdown: () => dispatch(actions.showNetworkDropdown()),
     hideNetworkDropdown: () => dispatch(actions.hideNetworkDropdown()),
-    setCurrentCurrencyToUSD: () => dispatch(actions.setCurrentCurrency('usd')),
     toggleAccountMenu: () => dispatch(actions.toggleAccountMenu()),
     setMouseUserState: (isMouseUser) => dispatch(actions.setMouseUserState(isMouseUser)),
   }
