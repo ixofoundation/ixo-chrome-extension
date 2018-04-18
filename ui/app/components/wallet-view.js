@@ -176,7 +176,7 @@ WalletView.prototype.render = function () {
           this.setState({ copyToClipboardPressed: false })
         },
       }, [
-        "Copy",
+        "Copy DID",
         h('i.fa.fa-clipboard', { style: { marginLeft: '8px' } }),
       ]),
     ]),

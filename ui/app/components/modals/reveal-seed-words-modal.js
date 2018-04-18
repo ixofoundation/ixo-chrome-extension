@@ -10,6 +10,8 @@ const { getSelectedIdentity } = require('../../selectors')
 const ReadOnlyInput = require('../readonly-input')
 const copyToClipboard = require('copy-to-clipboard')
 const QrView = require('../qr-code')
+const qrCode = require('qrcode-npm').qrcode
+
 
 
 function mapStateToProps (state) {
@@ -62,24 +64,32 @@ RevealSeedWordsModal.prototype.renderPasswordLabel = function (mnemonic) {
     : this.context.t('typePassword')
   )
 }
+RevealSeedWordsModal.prototype.renderQRCode = function (mnemonic) {
+  if(mnemonic){
+    const qrImage = qrCode(7, 'M')
+    qrImage.addData(mnemonic)
+    qrImage.make()
+    return h('div.modal-body-qrcode', {
+      style: {},
+      dangerouslySetInnerHTML: {
+        __html: qrImage.createTableTag(4),
+      },
+    })
+  }else{
+    return null
+  }
+}
 
 RevealSeedWordsModal.prototype.renderPasswordInput = function (mnemonic) {
 
   return mnemonic
-  ? h('aaa', [
-      h(QrView, {
-        Qr: {
-          data: mnemonic,
-        },
-      }),
-      h(ReadOnlyInput, {
+  ? h(ReadOnlyInput, {
         wrapperClass: 'private-key-password-display-wrapper',
         inputClass: 'private-key-password-display-textarea',
         textarea: true,
         value: mnemonic,
         onClick: () => copyToClipboard(mnemonic),
-      })
-    ])
+    })
     : h('input.private-key-password-input', {
       type: 'password',
       onChange: event => this.setState({ password: event.target.value }),
@@ -139,6 +149,8 @@ RevealSeedWordsModal.prototype.render = function () {
       h('span.modal-body-title', this.context.t('revealSeedWords')),
 
       h('div.private-key-password', {}, [
+        this.renderQRCode(mnemonic),
+
         this.renderPasswordLabel(mnemonic),
 
         this.renderPasswordInput(mnemonic),

@@ -36,8 +36,10 @@ UnlockScreen.prototype.render = function () {
   return (
     h('.unlock-screen', [
 
-      h(Mascot, {
-        animationEventEmitter: this.animationEventEmitter,
+      h('img.ixo-icon', {
+        height: 200,
+        width: 200,
+        src: '/images/ixo-logo.svg',
       }),
 
       h('h1', {

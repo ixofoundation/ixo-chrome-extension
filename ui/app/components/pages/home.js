@@ -64,7 +64,7 @@ class Home extends Component {
     }
 
     // seed words
-    if (seedWords) {
+/*    if (seedWords) {
       log.debug('rendering seed words')
       return h(Redirect, {
         to: {
@@ -72,7 +72,7 @@ class Home extends Component {
         },
       })
     }
-
+*/
     if (forgottenPassword) {
       log.debug('rendering restore vault screen')
       return h(Redirect, {

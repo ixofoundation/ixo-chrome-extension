@@ -43,7 +43,7 @@ class WelcomeScreen extends Component {
           }),
 
           h('div.welcome-screen__info__header', 'Welcome to the'),
-          h('div.welcome-screen__info__header', 'ixo credential Manager'),
+          h('div.welcome-screen__info__header', 'ixo Credential Manager'),
 
           h('div.welcome-screen__info__copy', 'The ixo Credential Manager securely stores your digital identity in a vault for signing ixo network requests.'),
 
