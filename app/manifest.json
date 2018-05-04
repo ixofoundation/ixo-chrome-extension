@@ -8,10 +8,10 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "windows": "Alt+Shift+M",
-        "mac": "Alt+Shift+M",
-        "chromeos": "Alt+Shift+M",
-        "linux": "Alt+Shift+M"
+        "windows": "Alt+Shift+I",
+        "mac": "Alt+Shift+I",
+        "chromeos": "Alt+Shift+I",
+        "linux": "Alt+Shift+I"
       }
     }
   },
